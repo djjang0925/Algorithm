@@ -2,10 +2,7 @@ import sys
 input = sys.stdin.readline
 
 test_case = int(input())
-test_list = []
-
-for i in range(test_case):
-    test_list.append(int(input()))
+test_list = [int(input()) for _ in range(test_case)]
 
 stack = [test_list.pop()]
 
