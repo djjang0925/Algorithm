@@ -6,14 +6,14 @@ def dfs(r):
     global res
     stack = [r]
 
-    if visited[r-1] == 0:
+    if visited[r-1] != 0:
         return
 
     while stack:
         n = stack.pop()
 
-        if visited[n-1] != 0:
-            visited[n-1] = 0
+        if visited[n-1] == 0:
+            visited[n-1] = 1
             stack.extend(graph_dict[n])
 
     res += 1
@@ -23,7 +23,7 @@ def dfs(r):
 
 n, m = map(int, input().rstrip().split())
 graph_dict = {i: [] for i in range(1, n + 1)}
-visited = [i for i in range(1, n + 1)]
+visited = [0] * n
 res = 0
 
 for i in range(m):
