@@ -4,28 +4,26 @@ import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
 public class Main {
-    public static void main(String[] args) throws NumberFormatException, IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st;
 
-        int num = Integer.parseInt(br.readLine());
-        int []arr = new int[num];
-        int res = 0;
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		
+		int n = Integer.parseInt(br.readLine());
+		
+		StringTokenizer st = new StringTokenizer(br.readLine());
+		int[] arr = new int[n];
+		int v = Integer.parseInt(br.readLine());
+		int res = 0;
+		
+		for (int i = 0; i < arr.length; i++) {
+			arr[i] = Integer.parseInt(st.nextToken());
+			if (arr[i] == v) {
+				res += 1;
+			}
+		}
+		
+		System.out.println(res);
+		
+	}
 
-        st = new StringTokenizer(br.readLine());
-
-        for(int i = 0; i < num; i++) {
-            arr[i] = Integer.parseInt(st.nextToken());
-        }
-
-        int num2 = Integer.parseInt(br.readLine());
-
-        for(int i = 0; i < num; i++) {
-            if(arr[i] == num2) {
-                res += 1;
-            }
-        }
-
-        System.out.println(res);
-    }
 }
