@@ -2,47 +2,44 @@ import java.io.*;
 import java.util.*;
 
 public class Main {
+    static int N, M;
+    static int[] Nums;
+    static int Res = 0;
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st;
 
         st = new StringTokenizer(br.readLine());
 
-        int n = Integer.parseInt(st.nextToken());
-        int m = Integer.parseInt(st.nextToken());
-
-        int[] numbers = new int[n];
+        N = Integer.parseInt(st.nextToken());
+        M = Integer.parseInt(st.nextToken());
 
         st = new StringTokenizer(br.readLine());
 
-        for (int i = 0; i < n; i++) {
-            numbers[i] = Integer.parseInt(st.nextToken());
+        Nums = new int[N];
+
+        for (int i = 0; i < N; i++) {
+            Nums[i] = Integer.parseInt(st.nextToken());
         }
 
-        int res = 0;
+        int s = 0, e = 0, temp = Nums[0];
 
-        for (int i = 0; i < n; i++) {
-            if (numbers[i] == m) {
-                res++;
-            } else if (numbers[i] < m) {
-                int temp = numbers[i];
-                int j = 1;
+        while(true) {
+            if (temp == M) {
+                Res++;
 
-                while(temp <= m && i + j < n) {
-                    temp += numbers[i + j];
-
-                    if (temp == m) {
-                        res++;
-                        break;
-                    } else if (temp < m) {
-                        j++;
-                    } else {
-                        break;
-                    }
+                temp -= Nums[s++];
+            } else if (temp < M) {
+                if (e == N - 1) {
+                    break;
                 }
+
+                temp += Nums[++e];
+            } else {
+                temp -= Nums[s++];
             }
         }
 
-        System.out.println(res);
+        System.out.println(Res);
     }
 }
