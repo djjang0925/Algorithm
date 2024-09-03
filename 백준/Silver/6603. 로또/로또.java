@@ -2,56 +2,55 @@ import java.util.*;
 import java.io.*;
 
 public class Main {
-    static List<Integer> list;
+    static int K;
+    static int[] Arr;
     static int[] Path;
-    static StringBuilder Sb = new StringBuilder();
-
+    static StringBuilder sb = new StringBuilder();
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
         StringTokenizer st;
 
         while(true) {
-            list = new ArrayList<>();
-            st = new StringTokenizer(br.readLine());
-
             Path = new int[6];
+            st = new StringTokenizer(br.readLine());
+            K = Integer.parseInt(st.nextToken());
 
-            if (Integer.parseInt(st.nextToken()) == 0) {
-                break;
+            if (K == 0) break;
+
+            Arr = new int[K];
+            for (int i = 0; i < K; i++) {
+                Arr[i] = Integer.parseInt(st.nextToken());
             }
 
-            while(st.hasMoreTokens()) {
-                list.add(Integer.parseInt(st.nextToken()));
-            }
+            Arrays.sort(Arr);
 
-            list.sort(Comparator.naturalOrder());
-            Combination(0,0 );
-            Sb.append('\n');
+            Combination(0, 0);
+            sb.append('\n');
         }
 
-        bw.write(Sb.toString());
+        bw.write(sb.toString());
         bw.flush();
         bw.close();
     }
 
     static void Combination(int lv, int st) {
         if (lv == 6) {
-            Print(Path);
+            Print();
             return;
         }
 
-        for (int i = st; i < list.size(); i++) {
-            Path[lv] = list.get(i);
+        for (int i = st; i < K; i++) {
+            Path[lv] = Arr[i];
             Combination(lv + 1, i + 1);
         }
     }
 
-    static void Print(int[] arr) {
-        for (int i : arr) {
-            Sb.append(i).append(" ");
+    static void Print() {
+        for (int i : Path) {
+            sb.append(i).append(" ");
         }
 
-        Sb.append('\n');
+        sb.append('\n');
     }
 }
