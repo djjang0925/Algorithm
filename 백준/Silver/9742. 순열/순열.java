@@ -2,12 +2,11 @@ import java.util.*;
 import java.io.*;
 
 public class Main {
+    static StringBuilder Sb = new StringBuilder();
     static char[] Arr, Path;
     static int[] Used;
-    static String Str;
     static int N, Cnt;
     static boolean Flag;
-    static StringBuilder Sb = new StringBuilder();
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -15,14 +14,14 @@ public class Main {
         String line;
 
         while ((line = br.readLine()) != null) {
-            Flag = false;
-            Cnt = 0;
             st = new StringTokenizer(line);
-            Str = st.nextToken();
+
+            Arr = st.nextToken().toCharArray();
             N = Integer.parseInt(st.nextToken());
-            Arr = Str.toCharArray();
             Path = new char[Arr.length];
             Used = new int[Arr.length];
+            Cnt = 0;
+            Flag = false;
 
             Permutation(0);
 
@@ -43,6 +42,8 @@ public class Main {
                 ToString();
                 return;
             }
+
+            return;
         }
 
         for (int i = 0; i < Arr.length; i++) {
@@ -50,7 +51,9 @@ public class Main {
 
             Used[i] = 1;
             Path[lv] = Arr[i];
+
             Permutation(lv + 1);
+
             Used[i] = 0;
         }
     }
@@ -62,7 +65,7 @@ public class Main {
 
         Sb.append(" ").append(N).append(" = ");
 
-        if (Flag) {
+        if (Cnt == N) {
             for (char i : Path) {
                 Sb.append(i);
             }
