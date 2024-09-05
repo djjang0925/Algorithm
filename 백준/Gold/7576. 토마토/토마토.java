@@ -1,80 +1,77 @@
-import java.io.*;
 import java.util.*;
+import java.io.*;
 
 public class Main {
-    static int n;
-    static int m;
-    static int[][] graph;
-    static Deque<Deque<int[]>> root = new ArrayDeque<>();
-    static int size;
-    static int[] dy = {1, -1, 0, 0};
-    static int[] dx = {0, 0, 1, -1};
-    static int res = -1;
+    static int N, M;
+    static int[][] Graph;
+    static int[][] Used;
+    static int[] My = {1 , -1, 0, 0};
+    static int[] Mx = {0, 0, 1 , -1};
+    static Deque<int[]> deque = new ArrayDeque<>();
+    static int Left = 0;
+    static int Days = 0;
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
 
-        m = Integer.parseInt(st.nextToken());
-        n = Integer.parseInt(st.nextToken());
+        M = Integer.parseInt(st.nextToken());
+        N = Integer.parseInt(st.nextToken());
 
-        size = m * n;
-        graph = new int[n][m];
+        Graph = new int[N][M];
+        Used = new int[N][M];
 
-        Deque<int[]> tomatos = new ArrayDeque<>();
-
-        for (int i = 0; i < n; i++) {
+        for (int i = 0; i < N; i++) {
             st = new StringTokenizer(br.readLine());
 
-            for (int j = 0; j < m; j++) {
-                graph[i][j] = Integer.parseInt(st.nextToken());
+            for (int j = 0; j< M; j++) {
+                int n = Integer.parseInt(st.nextToken());
+                Graph[i][j] = n;
 
-                if (graph[i][j] == 1) {
-                    tomatos.addFirst(new int[]{i, j});
-                    size--;
-                } else if (graph[i][j] == -1) {
-                    size--;
+                if (n == 1) {
+                    deque.addLast(new int[]{i, j});
+                    Used[i][j] = 1;
+                    Left++;
                 }
             }
         }
 
-        root.addFirst(tomatos);
+        Bfs();
 
-        bfs();
+        for (int[] i : Graph) {
+            for (int j : i) {
+                if (j == 0) {
+                    System.out.println(-1);
+                    return;
+                }
+            }
+        }
+
+        System.out.println(Days - 1);
     }
 
-    private static void bfs() {
-        while (!root.isEmpty()) {
-            res++;
-            Deque<int[]> today = root.pollFirst();
-            Deque<int[]> tomorrow = new ArrayDeque<>();
+    private static void Bfs() {
+        while (!deque.isEmpty()) {
+            int[] cur = deque.pollFirst();
+            Left--;
 
-            while (!today.isEmpty()) {
-                int[] now = today.pollLast();
+            for (int i = 0; i < 4; i++ ){
+                int ny = cur[0] + My[i];
+                int nx = cur[1] + Mx[i];
 
-                for (int i = 0; i < 4; i++) {
-                    int ny = now[0] + dy[i];
-                    int nx = now[1] + dx[i];
+                if (ny < 0 || ny >= N || nx < 0 || nx >=M || Used[ny][nx] == 1) continue;
 
-                    if (ny >= 0 && ny < n && nx >= 0 && nx < m) {
-                        if (graph[ny][nx] == 0) {
-                            graph[ny][nx] = 1;
-                            size--;
-                            tomorrow.addFirst(new int[]{ny, nx});
-                        }
-                    }
+                if (Graph[ny][nx] == 0) {
+                    Graph[ny][nx] = 1;
+                    Used[ny][nx] = 1;
+                    deque.addLast(new int[]{ny, nx});
                 }
             }
 
-            if (!tomorrow.isEmpty()) {
-                root.addFirst(tomorrow);
+            if (Left == 0) {
+                Days++;
+                Left = deque.size();
             }
-        }
-
-        if (size == 0) {
-            System.out.println(res);
-        } else {
-            System.out.println(-1);
         }
     }
 }
