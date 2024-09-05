@@ -1,79 +1,78 @@
-import java.io.*;
 import java.util.*;
+import java.io.*;
 
 public class Main {
-    static int w;
-    static int h;
-    static int count;
-    static int[][] graph;
-    static boolean[][] visited;
-    static boolean exist;
-    static int[] dx = {1, -1, 0, 0, 1, -1, 1, -1};
-    static int[] dy = {0, 0, 1, -1, 1, -1, -1, 1};
+    static int W, H;
+    static int[][] Graph, Visited;
+    static int Island;
+    static Deque<int[]> Dq = new ArrayDeque<>();
+    static int[] My = {1, -1, 0, 0, 1, -1, 1, -1};
+    static int[] Mx = {0, 0, 1, -1, -1, 1, 1, -1};
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st;
         StringBuilder sb = new StringBuilder();
+        StringTokenizer st;
 
         while (true) {
-            exist = false;
+            Island = 0;
+
             st = new StringTokenizer(br.readLine());
 
-            w = Integer.parseInt(st.nextToken());
-            h = Integer.parseInt(st.nextToken());
+            W = Integer.parseInt(st.nextToken());
+            H = Integer.parseInt(st.nextToken());
 
-            graph = new int[h][w];
-            visited = new boolean[h][w];
-            count = 0;
+            if (W == 0 && H == 0) break;
 
-            if (w == 0 && h == 0) {
-                System.out.println(sb.toString());
-                break;
-            }
+            Graph = new int[H][W];
+            Visited = new int[H][W];
 
-            for (int i = 0; i < h; i++) {
+            for (int i = 0; i < H; i++) {
                 st = new StringTokenizer(br.readLine());
-                for (int j = 0; j < w; j++) {
-                    graph[i][j] = Integer.parseInt(st.nextToken());
+
+                for (int j = 0; j < W; j++) {
+                    Graph[i][j] = Integer.parseInt(st.nextToken());
                 }
             }
 
-            findroot(graph);
-            sb.append(count).append("\n");
-        }
-    }
-
-    private static void findroot(int[][] graph) {
-        for (int i = 0; i < h; i++) {
-            for (int j = 0; j < w; j++) {
-                if (graph[i][j] == 1 && !visited[i][j]) {
-                    visited[i][j] = true;
-                    count++;
-                    bfs(i, j);
-                }
-            }
-        }
-    }
-
-    private static void bfs(int y, int x) {
-        Deque<int[]> root = new ArrayDeque<>();
-        root.add(new int[]{y, x});
-
-        while (!root.isEmpty()) {
-            int[] now = root.pollLast();
-
-            for (int i = 0; i < 8; i++) {
-                int ny = now[0] + dy[i];
-                int nx = now[1] + dx[i];
-
-                if (ny < h && ny >= 0 && nx < w && nx >= 0) {
-                    if (graph[ny][nx] == 1 && !visited[ny][nx]) {
-                        visited[ny][nx] = true;
-                        root.addFirst(new int[]{ny, nx});
+            for (int i = 0; i < H; i++) {
+                for (int j = 0; j < W; j++) {
+                    if (Graph[i][j] == 1) {
+                        Bfs(i, j);
                     }
                 }
             }
+            sb.append(Island).append('\n');
         }
+
+        System.out.println(sb.toString());
+    }
+
+    private static void Bfs(int y, int x) {
+        Dq.addLast(new int[]{y, x});
+        Visited[y][x] = 1;
+        Graph[y][x] = 0;
+
+        while (!Dq.isEmpty()) {
+            int[] cur = Dq.pollFirst();
+            int cy = cur[0], cx = cur[1];
+
+            for (int i = 0; i < 8; i++) {
+                int ny = cy + My[i];
+                int nx = cx + Mx[i];
+
+                if (ny < 0 || ny >= H || nx < 0 || nx >= W || Visited[ny][nx] == 1) {
+                    continue;
+                }
+
+                if (Graph[ny][nx] == 1) {
+                    Visited[ny][nx] = 1;
+                    Graph[ny][nx] = 0;
+                    Dq.addLast(new int[]{ny, nx});
+                }
+            }
+        }
+
+        Island++;
     }
 }
