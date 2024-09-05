@@ -3,7 +3,7 @@ import java.io.*;
 
 public class Main {
     static int N, M, R;
-    static HashMap<Integer, List<Integer>> Graph = new HashMap<>();
+    static List<Integer>[] Graph;
     static int[] Order;
     static int Cnt = 1;
 
@@ -16,9 +16,10 @@ public class Main {
         R = Integer.parseInt(st.nextToken());
 
         Order = new int[N];
+        Graph = new ArrayList[N + 1];
 
         for (int i = 1; i <= N; i++) {
-            Graph.put(i, new ArrayList<>());
+            Graph[i] = new ArrayList<>();
         }
 
         for (int i = 0; i < M; i++) {
@@ -26,12 +27,12 @@ public class Main {
             int x = Integer.parseInt(st.nextToken());
             int y = Integer.parseInt(st.nextToken());
 
-            Graph.get(x).add(y);
-            Graph.get(y).add(x);
+            Graph[x].add(y);
+            Graph[y].add(x);
         }
 
-        for (List<Integer> i : Graph.values()) {
-            i.sort(Comparator.naturalOrder());
+        for (int i = 1; i <= N; i++) {
+            Graph[i].sort(Comparator.naturalOrder());
         }
 
         Bfs(R);
@@ -45,13 +46,13 @@ public class Main {
         Deque<Integer> deque = new ArrayDeque<>();
         deque.addLast(r);
 
-        while(!deque.isEmpty()) {
+        while (!deque.isEmpty()) {
             int cur = deque.pollFirst();
 
             if (Order[cur - 1] == 0) {
                 Order[cur - 1] = Cnt++;
 
-                for (int i : Graph.get(cur)) {
+                for (int i : Graph[cur]) {
                     deque.addLast(i);
                 }
             }
