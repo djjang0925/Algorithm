@@ -3,22 +3,31 @@ import java.io.*;
 
 public class Main {
     static int N;
-    static List<Integer> Fibo = new ArrayList<>(Arrays.asList(0, 1));
-    static void Recursion() {
-        int idx = Fibo.size();
-        if (N < 2) return;
+    static List<Integer> Arr = new ArrayList<>();
 
-        if (idx == N) Fibo.add(Fibo.get(idx - 1) + Fibo.get(idx - 2));
-        else if (idx < N) {
-            Fibo.add(Fibo.get(idx - 1) + Fibo.get(idx - 2));
-            Recursion();
-        }
-    }
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         N = sc.nextInt();
 
-        Recursion();
-        System.out.println(Fibo.get(N));
+        Arr.add(0);
+        Arr.add(1);
+
+        Fibo();
+
+        System.out.println(Arr.get(N));
+    }
+
+    private static void Fibo() {
+        if (N < 2) return;
+
+        int idx = Arr.size();
+
+        Arr.add(Arr.get(idx - 2) + Arr.get(idx - 1));
+
+        if (idx == N) {
+            return;
+        }
+
+        Fibo();
     }
 }
