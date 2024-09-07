@@ -1,43 +1,44 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.Arrays;
-import java.util.StringTokenizer;
+import java.util.*;
+import java.io.*;
 
 public class Main {
+    static int N, X;
+    static int[] Numbers;
+    static int Cnt = 0;
+
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st;
 
-        int n = Integer.parseInt(br.readLine());
-        int[] numbers = new int[n];
-        int res = 0;
+        N = Integer.parseInt(br.readLine());
+        Numbers = new int[N];
 
         st = new StringTokenizer(br.readLine());
 
-        for(int i = 0; i < n; i++) {
-            numbers[i] = Integer.parseInt(st.nextToken());
+        for (int i = 0; i < N; i++) {
+            Numbers[i] = Integer.parseInt(st.nextToken());
         }
 
-        int x = Integer.parseInt(br.readLine());
+        Arrays.sort(Numbers);
 
-        Arrays.sort(numbers);
+        X = Integer.parseInt(br.readLine());
 
-        int start = 0;
-        int end = n - 1;
+        int s = 0, e = N - 1;
 
-        while (start < end) {
-            if (numbers[start] + numbers[end] == x) {
-                res++;
-                start++;
-                end--;
-            } else if (numbers[start] + numbers[end] < x) {
-                start++;
+        while(s < e) {
+            int sum = Numbers[s] + Numbers[e];
+
+            if (sum == X) {
+                s++;
+                e--;
+                Cnt++;
+            } else if (sum > X) {
+                e--;
             } else {
-                end--;
+                s++;
             }
         }
 
-        System.out.println(res);
+        System.out.println(Cnt);
     }
 }
