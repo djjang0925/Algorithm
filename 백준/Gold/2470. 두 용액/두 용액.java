@@ -1,50 +1,48 @@
-import java.io.*;
 import java.util.*;
+import java.io.*;
 
 public class Main {
     static int N;
-    static int[] Nums;
+    static int[] Arr;
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
         StringBuilder sb = new StringBuilder();
         StringTokenizer st;
 
         N = Integer.parseInt(br.readLine());
-        Nums = new int[N];
+        Arr = new int[N];
+
         st = new StringTokenizer(br.readLine());
 
-        for (int i = 0; i < N; i++) {
-            Nums[i] = Integer.parseInt(st.nextToken());
+        for(int i = 0; i < N; i++) {
+            Arr[i] = Integer.parseInt(st.nextToken());
         }
 
-        Arrays.sort(Nums);
+        Arrays.sort(Arr);
 
-        int s = 0, e = N - 1, sum = 2000000000;
-        int r1 = 0, r2 = 0;
+        int s = 0, e = N - 1;
+        int[] temp = {2000000001, 0, 0};
 
-        while (s < e) {
-            int temp = Nums[s] + Nums[e];
+        while(s < e) {
+            int sum = Arr[s] + Arr[e];
 
-            if (Math.abs(temp) < sum) {
-                sum = Math.abs(temp);
-                r1 = Nums[s];
-                r2 = Nums[e];
+            if (Math.abs(sum) < temp[0]) {
+                temp[0] = Math.abs(sum);
+                temp[1] = Arr[s];
+                temp[2] = Arr[e];
             }
 
-            if (temp == 0) {
+            if (sum == 0) {
                 break;
-            } else if (temp < 0) {
+            } else if (sum < 0) {
                 s++;
             } else {
                 e--;
             }
         }
 
-        sb.append(r1).append(" ").append(r2);
-        bw.write(sb.toString());
-        bw.flush();
-        bw.close();
+        sb.append(temp[1]).append(" ").append(temp[2]);
+        System.out.println(sb.toString());
     }
 }
