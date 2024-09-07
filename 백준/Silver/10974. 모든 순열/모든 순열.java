@@ -2,43 +2,46 @@ import java.util.*;
 import java.io.*;
 
 public class Main {
+    static StringBuilder Sb = new StringBuilder();
     static int N;
-    static int[] Path, Used;
-    static StringBuilder sb = new StringBuilder();
+    static int[] Used, Path;
 
     public static void main(String[] args) throws IOException {
-        Scanner sc = new Scanner(System.in);
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st;
 
-        N = sc.nextInt();
-        Path = new int[N];
+        N = Integer.parseInt(br.readLine());
         Used = new int[N];
+        Path = new int[N];
 
         Permutation(0);
 
-        System.out.println(sb.toString());
+        System.out.println(Sb.toString());
     }
 
-    static void Permutation(int lv) {
-        if (lv == N) {
-            ToString();
+    private static void Permutation(int n) {
+        if (n == N) {
+            Print();
             return;
         }
 
-        for (int i = 0; i < N; i++) {
-            if (Used[i] == 1) continue;
+        for (int i = 1; i <= N; i++) {
+            if (Used[i - 1] == 0) {
+                Used[i - 1] = 1;
+                Path[n] = i;
 
-            Used[i] = 1;
-            Path[lv] = i + 1;
-            Permutation(lv + 1);
-            Used[i] = 0;
+                Permutation(n + 1);
+
+                Used[i - 1] = 0;
+            }
         }
     }
 
-    static void ToString() {
+    private static void Print() {
         for (int i : Path) {
-            sb.append(i).append(" ");
+            Sb.append(i).append(" ");
         }
 
-        sb.append('\n');
+        Sb.append('\n');
     }
 }
