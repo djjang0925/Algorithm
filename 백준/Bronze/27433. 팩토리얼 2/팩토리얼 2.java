@@ -1,16 +1,21 @@
 import java.util.*;
+import java.io.*;
 
 public class Main {
-    static long Recursion(long num) {
-        if (num == 1 || num == 0) return 1;
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+//        StringTokenizer st = new StringTokenizer(br.readLine());
 
-        return num *= Recursion(num - 1);
+        long N = Long.parseLong(br.readLine());
+
+        System.out.println(Recursion(N));
     }
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
 
-        long n = sc.nextLong();
+    private static long Recursion(long n) {
+        if (n == 0) {
+            return 1;
+        }
 
-        System.out.println(Recursion(n));
+        return n * Recursion(n - 1);
     }
 }
